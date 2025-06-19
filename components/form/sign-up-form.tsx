@@ -16,7 +16,6 @@ import { z } from "zod";
 import { object, string } from "zod";
 import { Separator } from "../ui/separator";
 import Link from "next/link";
-import { AuthGoogleButton } from "../ui/auth-google-button";
 import { useRouter } from "next/navigation";
 import { useToast } from "@/hooks/use-toast";
 import axios from "axios";
@@ -68,7 +67,7 @@ export function SignUpForm() {
       });
 
       toast({
-        variant: "default",
+        variant: "success",
         title: "Succes",
         description: "Utilizator creat cu succes!",
       });
@@ -147,8 +146,8 @@ export function SignUpForm() {
             )}
           />
         </div>
-        <Button className="w-full mt-10" type="submit" variant={"secondary"}>
-          Înregistrare
+        <Button className="w-full mt-10 border-2 border-blue-500" type="submit">
+          🧑‍💻 Înregistrare
         </Button>
       </form>
 
@@ -157,8 +156,6 @@ export function SignUpForm() {
         <span className="text-sm text-muted-foreground">sau</span>
         <Separator className="flex-1" />
       </div>
-
-      <AuthGoogleButton>Înregistrează-te cu Google</AuthGoogleButton>
 
       <p className="text-center text-sm text-slate-200 mt-4">
         Aveți deja un cont?&nbsp;

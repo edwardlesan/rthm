@@ -23,8 +23,7 @@ export function CCTVWidget() {
   const stopCamera = () => {
     if (videoRef.current && videoRef.current.srcObject) {
       const stream = videoRef.current.srcObject as MediaStream;
-      const tracks = stream.getTracks();
-      tracks.forEach((track) => track.stop());
+      stream.getTracks().forEach((track) => track.stop());
       videoRef.current.srcObject = null;
     }
   };
@@ -44,35 +43,41 @@ export function CCTVWidget() {
   }, []);
 
   return (
-    <div className="w-full pt-8 relative">
+    <div className="w-full h-full relative rounded-2xl overflow-hidden border border-white/20 shadow-md">
       {isCameraOn ? (
         <video
           ref={videoRef}
           autoPlay
           playsInline
-          className="rounded-2xl border-2 border-white w-full object-cover h-80"
+          className="w-full h-full object-cover bg-black"
         />
       ) : (
-        <div className="rounded-2xl border-2 border-white w-full h-80 bg-[#555555]" />
+        <div className="w-full h-full bg-gradient-to-br from-gray-700 to-gray-800 flex items-center justify-center">
+          <VideoOff className="text-white/30 w-12 h-12" />
+        </div>
       )}
-      <div className="absolute top-12 left-4 bg-black border border-black border-opacity-30 bg-opacity-50 rounded-xl h-6 p-4 flex items-center justify-center gap-2">
+
+      {/* Live Indicator */}
+      <div className="absolute top-4 left-4 px-3 py-1 rounded-full bg-black/60 backdrop-blur-sm border border-white/20 flex items-center gap-2">
         <div
-          className={`rounded-full w-3 h-3 ${
-            isCameraOn ? "bg-red-600" : "bg-gray-600"
+          className={`w-2.5 h-2.5 rounded-full ${
+            isCameraOn ? "bg-red-500 animate-pulse" : "bg-gray-400"
           }`}
         />
-        <p className="text-sm font-medium text-white">Live</p>
+        <span className="text-white text-sm font-medium">Live</span>
       </div>
-      <div
-        className="cursor-pointer rounded-full w-8 h-8 bg-black border border-black border-opacity-30 flex items-center bg-opacity-50 justify-center absolute top-12 right-4"
+
+      {/* Toggle Button */}
+      <button
         onClick={toggleCamera}
+        className="absolute top-4 right-4 w-9 h-9 rounded-full bg-black/60 backdrop-blur-sm border border-white/20 flex items-center justify-center hover:bg-black/80 transition"
       >
         {isCameraOn ? (
           <VideoOff className="w-5 h-5 text-white" />
         ) : (
           <Video className="w-5 h-5 text-white" />
         )}
-      </div>
+      </button>
     </div>
   );
 }

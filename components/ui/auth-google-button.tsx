@@ -1,14 +1,13 @@
 import Image from "next/image";
 import { Button } from "./button";
+import { signIn } from "next-auth/react";
 
 interface IAuthGoogleButton {
   children: React.ReactNode;
 }
 
 export function AuthGoogleButton({ children }: IAuthGoogleButton) {
-  const loginWithGoogle = () => {
-    console.log("login with google");
-  };
+  const loginWithGoogle = () => signIn("google");
 
   return (
     <Button

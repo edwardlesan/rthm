@@ -1,9 +1,4 @@
-// This is your Prisma schema file,
-// learn more about it in the docs: https://pris.ly/d/prisma-schema
-
-// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
-// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
-
+// schema.prisma
 generator client {
   provider = "prisma-client-js"
   output   = "../lib/generated/prisma"
@@ -19,6 +14,41 @@ model User {
   email String  @unique
   username String @unique
   password String 
+  bio        String?  // New
+  location   String?  // New
+  avatarUrl  String?  // New
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model SensorData {
+  id                 Int      @id @default(autoincrement())
+  temperature_C      Float?
+  humidity_percent   Float?
+  pressure_hPa       Float?
+  altitude_m         Float?
+  luminosity_raw     Int
+  luminosity_percent Int
+  mq8_raw            Int
+  mq8_approx_ppm     Float
+  createdAt          DateTime @default(now())
+  notifications      Notification[]
+}
+
+model LedState {
+  id        Int      @id @default(autoincrement())
+  status    Boolean  @default(false)
+  updatedAt DateTime @updatedAt
+}
+
+model Notification {
+  id        String   @id @default(uuid())
+  message   String
+  isSeen    Boolean  @default(false)
+  type      String
+  value     Float
+  sensorDataId Int?
+  sensorData SensorData? @relation(fields: [sensorDataId], references: [id])
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 }

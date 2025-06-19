@@ -50,7 +50,6 @@ const WeatherWidget = ({
         const response = await axios.get(url);
         setWeather(response.data);
       } catch (err) {
-        console.error("Error fetching weather data:", err);
         setError("Failed to load weather data.");
       } finally {
         setLoading(false);
@@ -73,10 +72,10 @@ const WeatherWidget = ({
   return (
     <div className="flex justify-between w-full">
       <div className="flex flex-col gap-2">
-        <p className="text-3xl font-medium">{`Hi, ${userName}!`}</p>
+        <p className="text-3xl font-medium">{`Salut, ${userName}!`}</p>
         <p className="text-sm">
           {getWelcomeMessage(
-            weather?.weather[0]?.description || "Have a great day!"
+            weather?.weather[0]?.description || "Să ai o zi buna!"
           )}
         </p>
       </div>

@@ -22,7 +22,9 @@ export function formatDate(date: Date): {
     hour12: false,
   };
 
-  const formattedDate = date.toLocaleString("ro-RO", dateOptions);
+  const formattedDate =
+    date.toLocaleString("ro-RO", dateOptions).charAt(0).toUpperCase() +
+    date.toLocaleString("ro-RO", dateOptions).slice(1);
   const formattedTime = date.toLocaleString("ro-RO", timeOptions);
 
   return { formattedDate, formattedTime };

@@ -1,5 +1,6 @@
 export interface IUser {
   name?: string | null | undefined;
+  username?: string | null | undefined;
   email?: string | null | undefined;
   image?: string | null | undefined;
   access?: boolean;

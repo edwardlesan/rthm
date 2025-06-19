@@ -1,6 +1,6 @@
 "use client";
 
-import { Home, Users, Video, Grip, Settings, CircleHelp } from "lucide-react";
+import { Home, Cpu, Logs, Earth, Settings, CircleHelp } from "lucide-react";
 
 import {
   Sidebar,
@@ -18,41 +18,35 @@ import { usePathname } from "next/navigation";
 
 const mainItems = [
   {
-    id: "",
-    title: "Home",
+    id: "home",
+    title: "Acasă",
     url: "/",
     icon: Home,
   },
   {
-    id: "members",
-    title: "Members",
-    url: "/members",
-    icon: Users,
+    id: "devices",
+    title: "Dispozitive",
+    url: "/devices",
+    icon: Cpu,
   },
   {
-    id: "rooms",
-    title: "Rooms",
-    url: "/rooms",
-    icon: Grip,
+    id: "environment",
+    title: "Mediu",
+    url: "/environment",
+    icon: Earth,
   },
   {
-    id: "cctv",
-    title: "CCTV",
-    url: "/cctv",
-    icon: Video,
+    id: "logs",
+    title: "Jurnal / Istoric",
+    url: "/logs",
+    icon: Logs,
   },
 ];
 
 const userItems = [
   {
-    id: "settings",
-    title: "Settings",
-    url: "/settings",
-    icon: Settings,
-  },
-  {
     id: "help",
-    title: "Help",
+    title: "Ajutor",
     url: "/help",
     icon: CircleHelp,
   },
@@ -67,7 +61,7 @@ export function AppSidebar() {
       <SidebarContent>
         <SidebarGroup>
           <SidebarGroupLabel className="text-lg mb-4">
-            My Smart House
+            RTHM 🏢
           </SidebarGroupLabel>
           <SidebarGroupContent>
             <SidebarMenu className="gap-6">
@@ -76,8 +70,8 @@ export function AppSidebar() {
                   <SidebarMenuButton
                     asChild
                     size="default"
-                    isActive={segment === item.id}
-                    className="hover:bg-transparent hover:text-blue-500"
+                    isActive={pathname === item.url}
+                    className="hover:bg-transparent hover:text-cyan-400"
                   >
                     <a href={item.url}>
                       <div className="rounded-full size-8 bg-slate-600 flex items-center justify-center">
@@ -105,7 +99,7 @@ export function AppSidebar() {
                 asChild
                 size="default"
                 isActive={segment === item.id}
-                className="hover:bg-transparent hover:text-blue-500"
+                className="hover:bg-transparent hover:text-cyan-400"
               >
                 <a href={item.url}>
                   <div className="rounded-full size-8 bg-slate-600 flex items-center justify-center">

@@ -1,6 +1,12 @@
 "use client";
 
 import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { z, string } from "zod";
+import { useRouter } from "next/navigation";
+import Link from "next/link";
+import { signIn } from "next-auth/react";
+
 import { Button } from "../ui/button";
 import {
   Form,
@@ -11,37 +17,55 @@ import {
   FormMessage,
 } from "../ui/form";
 import { Input } from "../ui/input";
-import { zodResolver } from "@hookform/resolvers/zod";
-import * as z from "zod";
 import { Separator } from "../ui/separator";
-import Link from "next/link";
-import { AuthGoogleButton } from "../ui/auth-google-button";
-// import { GoogleSignInButton } from "../ui/GoogleSignInButton";
+import { useToast } from "@/hooks/use-toast";
 
-const formSchema = z.object({
-  email: z
-    .string()
+// Schema & Type
+export const SignInSchema = z.object({
+  email: string()
     .min(1, { message: "Adresa de email este obligatorie" })
-    .email({
-      message: "Introduceți o adresă de email validă",
-    }),
-  password: z
-    .string()
+    .email({ message: "Introduceți o adresă de email validă" }),
+  password: string()
     .min(1, { message: "Câmp obligatoriu" })
     .min(8, { message: "Parola trebuie să conțină minim 8 caractere" }),
 });
 
+export type SignInFormValues = z.infer<typeof SignInSchema>;
+
 export function SignInForm() {
-  const form = useForm<z.infer<typeof formSchema>>({
-    resolver: zodResolver(formSchema),
+  const { toast } = useToast();
+  const router = useRouter();
+
+  const form = useForm<SignInFormValues>({
+    resolver: zodResolver(SignInSchema),
     defaultValues: {
       email: "",
       password: "",
     },
   });
 
-  const onSubmit = (values: z.infer<typeof formSchema>) => {
-    console.log("form submitted", values);
+  const onSubmit = async (values: SignInFormValues) => {
+    const result = await signIn("credentials", {
+      redirect: false,
+      email: values.email,
+      password: values.password,
+    });
+
+    if (result?.error) {
+      toast({
+        variant: "destructive",
+        title: "Eroare",
+        description: "Email sau parolă incorecte.",
+      });
+    } else {
+      toast({
+        variant: "success",
+        title: "Succes",
+        description: "Bine ai revenit!",
+      });
+      router.refresh();
+      router.push("/");
+    }
   };
 
   return (
@@ -61,6 +85,7 @@ export function SignInForm() {
               </FormItem>
             )}
           />
+
           <FormField
             control={form.control}
             name="password"
@@ -79,8 +104,8 @@ export function SignInForm() {
             )}
           />
         </div>
-        <Button className="w-full mt-10" variant="secondary" type="submit">
-          Autentificare
+        <Button type="submit" className="w-full mt-10 border-2 border-blue-500">
+          🔐 Autentificare
         </Button>
       </form>
 
@@ -92,11 +117,9 @@ export function SignInForm() {
         <Separator className="flex-1" />
       </div>
 
-      <AuthGoogleButton>Auntetifică-te cu Google</AuthGoogleButton>
-
       <p className="text-center text-sm text-slate-200 mt-4">
-        Nu aveți un cont?&nbsp;
-        <Link className="text-blue-500 hover:underline" href="/sign-up">
+        Nu aveți un cont?{" "}
+        <Link href="/sign-up" className="text-blue-500 hover:underline">
           Înregistrați-vă
         </Link>
       </p>

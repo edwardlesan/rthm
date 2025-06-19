@@ -15,7 +15,9 @@ export function MemberCard({ member }: { member: IUser }) {
     <div className="bg-sidebar rounded-2xl py-10 px-16 flex flex-col gap-2 items-center">
       <Avatar className="size-20 border-2 border-slate-300">
         <AvatarImage src={member.image ?? ""} />
-        <AvatarFallback>{member.name?.charAt(0) ?? "?"}</AvatarFallback>
+        <AvatarFallback>
+          {member.name?.charAt(0).toUpperCase() ?? "?"}
+        </AvatarFallback>
       </Avatar>
 
       <h1 className="text-xl font-medium">{member.name}</h1>
