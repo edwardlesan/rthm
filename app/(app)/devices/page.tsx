@@ -35,46 +35,55 @@ export default function DevicesPage() {
   const { toast } = useToast();
 
   useEffect(() => {
-    setDevices([
-      {
-        id: 1,
-        name: "LED sufragerie",
-        type: "LED",
-        status: "online",
-        isOn: true,
-      },
-      {
-        id: 2,
-        name: "Senzor Temperatură & Umiditate",
-        type: "DHT11",
-        status: "online",
-      },
-      {
-        id: 3,
-        name: "Senzor Presiune & Altitudine",
-        type: "BMP280",
-        status: "online",
-      },
-      {
-        id: 4,
-        name: "Senzor Gaz",
-        type: "MQ8",
-        status: "online",
-      },
-      {
-        id: 5,
-        name: "Senzor Lumină Ambientală",
-        type: "Fotorezistive Sensor",
-        status: "online",
-      },
-      {
-        id: 6,
-        name: "Cameră Supraveghere",
-        type: "Camera",
-        status: "offline",
-      },
-    ]);
-  }, []);
+    async function fetchDevices() {
+      try {
+        const response = await axios.get("/api/led");
+        const ledStatus = response.data.status;
+
+        setDevices([
+          {
+            id: 1,
+            name: "LED sufragerie",
+            type: "LED",
+            status: "online",
+            isOn: ledStatus,
+          },
+          {
+            id: 2,
+            name: "Senzor Temperatură & Umiditate",
+            type: "DHT11",
+            status: "online",
+          },
+          {
+            id: 3,
+            name: "Senzor Presiune & Altitudine",
+            type: "BMP280",
+            status: "online",
+          },
+          { id: 4, name: "Senzor Gaz", type: "MQ8", status: "online" },
+          {
+            id: 5,
+            name: "Senzor Lumină Ambientală",
+            type: "Fotorezistive Sensor",
+            status: "online",
+          },
+          {
+            id: 6,
+            name: "Cameră Supraveghere",
+            type: "Camera",
+            status: "offline",
+          },
+        ]);
+      } catch {
+        toast({
+          variant: "destructive",
+          title: "Eroare la încărcarea statusului LED",
+        });
+      }
+    }
+
+    fetchDevices();
+  }, [toast]);
 
   const toggleDevice = async (id: number) => {
     const device = devices.find((d) => d.id === id);
@@ -87,10 +96,10 @@ export default function DevicesPage() {
       setDevices((prev) =>
         prev.map((d) => (d.id === id ? { ...d, isOn: updatedStatus } : d))
       );
-    } catch (error) {
+    } catch {
       toast({
         variant: "destructive",
-        title: "Eroare",
+        title: "Eroare la actualizarea statusului LED",
       });
     }
   };
@@ -141,8 +150,8 @@ export default function DevicesPage() {
                   className={`w-2 h-2 rounded-full ${
                     device.status === "online" ? "bg-green-500" : "bg-gray-400"
                   }`}
-                ></span>
-                {device.status === "online" ? "online" : "offline"}
+                />
+                {device.status}
               </span>
 
               {device.type === "LED" && (

@@ -3,7 +3,10 @@ import { NextResponse } from "next/server";
 
 export async function GET() {
   const last = await db.ledState.findFirst({ orderBy: { updatedAt: "desc" } });
-  return NextResponse.json({ status: last?.status ?? false });
+
+  return NextResponse.json({
+    status: last?.status ?? false,
+  });
 }
 
 export async function POST(req: Request) {
