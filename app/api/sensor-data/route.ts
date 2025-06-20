@@ -1,4 +1,3 @@
-// app/api/sensor-data/route.ts
 import { db } from "@/lib/db";
 import { NextResponse } from "next/server";
 import * as z from "zod";

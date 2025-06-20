@@ -1,9 +1,8 @@
-// app/api/notifications/[id]/seen/route.ts
 import { db } from "@/lib/db";
-import { NextResponse } from "next/server";
+import { NextResponse, NextRequest } from "next/server";
 
 export async function PATCH(
-  req: Request,
+  req: NextRequest, // Use NextRequest here
   { params }: { params: { id: string } }
 ) {
   try {
