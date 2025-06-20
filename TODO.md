@@ -6,11 +6,6 @@ Aceasta este o listă de sarcini pentru finalizarea proiectului de licență.
 
 ## ✅ Cerințe generale
 
-- [ ] ✅ **Interfață web responsive**
-
-  - [ ] Testare pe mobil, tabletă, desktop
-  - [ ] Layout adaptiv pentru dashboard și pagini principale
-
 - [ ] ✅ **Deploy aplicație web**
 
   - [ ] Hosting (ex: Vercel, Netlify, AWS, etc.)
