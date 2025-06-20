@@ -1,13 +1,13 @@
 import { db } from "@/lib/db";
-import { NextResponse, NextRequest } from "next/server";
+import { NextResponse } from "next/server";
 
 export async function PATCH(
-  req: NextRequest,
+  request: Request,
   context: { params: { id: string } }
 ) {
-  try {
-    const { id } = context.params;
+  const { id } = context.params;
 
+  try {
     const updatedNotification = await db.notification.update({
       where: { id },
       data: { isSeen: true },
@@ -18,6 +18,7 @@ export async function PATCH(
       isSeen: updatedNotification.isSeen,
     });
   } catch (error) {
+    console.error(error);
     return NextResponse.json(
       { error: "Eroare la actualizarea notificării" },
       { status: 500 }

@@ -1,10 +1,11 @@
 import { db } from "@/lib/db";
 import { NextResponse } from "next/server";
+import type { Notification } from "@/lib/generated/prisma";
 
 export async function GET(req: Request) {
   const { searchParams } = new URL(req.url);
   const page = parseInt(searchParams.get("page") || "1");
-  const limit = 4;
+  const limit = 5;
   const offset = (page - 1) * limit;
 
   const notifications = await db.notification.findMany({
@@ -16,12 +17,12 @@ export async function GET(req: Request) {
   const totalCount = await db.notification.count();
 
   return NextResponse.json({
-    notifications: notifications.map((notification) => ({
+    notifications: notifications.map((notification: Notification) => ({
       id: notification.id,
       message: notification.message,
       isSeen: notification.isSeen,
       createdAt: notification.createdAt.toISOString(),
     })),
-    hasMore: offset + notifications.length < totalCount,
+    hasMore: offset + limit < totalCount,
   });
 }
