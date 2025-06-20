@@ -25,7 +25,7 @@ export function Navbar({
   const [isNotificationOpen, setNotificationOpen] = useState(false);
 
   return (
-    <div className="flex items-center gap-4 justify-between pb-4 pt-2">
+    <div className="flex items-center gap-4 justify-between px-4 pb-4 pt-2">
       {children}
       <div className="flex items-center gap-4">
         <Popover open={isNotificationOpen} onOpenChange={setNotificationOpen}>

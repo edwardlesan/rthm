@@ -104,7 +104,7 @@ export function EnvironmentClient() {
 
         {/* City selector */}
         <Select value={city} onValueChange={(val) => setCity(val)}>
-          <SelectTrigger className="mb-4 w-1/6 text-white">
+          <SelectTrigger className="mb-4 w-[200px] text-white">
             <SelectValue placeholder="Selectează orașul" />
           </SelectTrigger>
           <SelectContent>

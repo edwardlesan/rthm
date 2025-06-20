@@ -33,6 +33,9 @@ const config: Config = {
         background: "#000",
         foreground: "#fff",
       },
+      screens: {
+        xxl: "1550px", // ✅ custom screen breakpoint
+      },
     },
   },
   plugins: [require("tailwindcss-animate")],

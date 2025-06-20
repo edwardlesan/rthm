@@ -12,12 +12,14 @@ export default async function AppLayout({
   return (
     <SidebarProvider>
       <AppSidebar />
-      <main className="w-full p-4 h-dvh flex flex-col">
+      <div className="flex flex-col w-full h-screen overflow-hidden">
         <Navbar user={user}>
           <SidebarTrigger />
         </Navbar>
-        <div className="flex-1 overflow-hidden">{children}</div>
-      </main>
+        <main className="w-full flex-1 overflow-hidden p-4 rounded-tl-lg">
+          {children}
+        </main>
+      </div>
     </SidebarProvider>
   );
 }

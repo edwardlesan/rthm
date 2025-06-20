@@ -26,7 +26,7 @@ export default function Home() {
 
   if (loading) {
     return (
-      <div className="flex justify-center items-center h-screen">
+      <div className="flex justify-center items-center h-dvh">
         <Loader2 className="animate-spin w-6 h-6 text-neutral-500" />
       </div>
     );

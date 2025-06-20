@@ -1,7 +1,6 @@
-// notification-container.tsx
 "use client";
 
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useState } from "react";
 import axios from "axios";
 import { formatDistanceToNow } from "date-fns";
 import { motion } from "framer-motion";
@@ -9,6 +8,7 @@ import { AlertTriangle } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { ScrollArea } from "./scroll-area";
 import { useToast } from "@/hooks/use-toast";
+import { Button } from "@/components/ui/button";
 
 type AnomalyNotification = {
   id: string;
@@ -22,22 +22,20 @@ type AnomalyNotification = {
 export default function NotificationContainer() {
   const [notifications, setNotifications] = useState<AnomalyNotification[]>([]);
   const [page, setPage] = useState(1);
-  const observerRef = useRef<HTMLDivElement>(null);
-  const isLoadingRef = useRef(false);
+  const [hasMore, setHasMore] = useState(true);
+  const [isLoading, setIsLoading] = useState(false);
   const { toast } = useToast();
 
   const fetchMore = async () => {
-    if (isLoadingRef.current) return;
-    isLoadingRef.current = true;
+    if (isLoading || !hasMore) return;
+    setIsLoading(true);
 
     try {
-      const res = await axios.get(`/api/notifications?limit=20&page=${page}`);
+      const res = await axios.get(`/api/notifications?limit=4&page=${page}`);
 
       if (res.status === 200) {
-        const data = res.data;
-        const newNotifications: AnomalyNotification[] = Array.isArray(data)
-          ? data
-          : data.notifications;
+        const { notifications: newNotifications, hasMore: newHasMore } =
+          res.data;
 
         if (!Array.isArray(newNotifications)) {
           toast({
@@ -49,16 +47,19 @@ export default function NotificationContainer() {
         }
 
         setNotifications((prev) => {
-          const unique = new Map(prev.map((n) => [n.id, n]));
-          newNotifications.forEach((n) => unique.set(n.id, n));
-
-          return Array.from(unique.values()).sort(
+          const existingIds = new Set(prev.map((n) => n.id));
+          const merged = [
+            ...prev,
+            ...newNotifications.filter((n) => !existingIds.has(n.id)),
+          ].sort(
             (a, b) =>
               new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()
           );
+          return merged;
         });
 
-        setPage((p) => p + 1);
+        setPage((prev) => prev + 1); // Only increment after success
+        setHasMore(newHasMore);
       }
     } catch (error) {
       toast({
@@ -67,7 +68,7 @@ export default function NotificationContainer() {
         variant: "destructive",
       });
     } finally {
-      isLoadingRef.current = false;
+      setIsLoading(false);
     }
   };
 
@@ -92,25 +93,12 @@ export default function NotificationContainer() {
     fetchMore();
   }, []);
 
-  useEffect(() => {
-    const observer = new IntersectionObserver(
-      (entries) => {
-        if (entries[0].isIntersecting) {
-          fetchMore();
-        }
-      },
-      { threshold: 1.0 }
-    );
-    if (observerRef.current) observer.observe(observerRef.current);
-    return () => observer.disconnect();
-  }, []);
-
   return (
-    <div className="w-80 max-h-[400px] rounded-xl bg-white/10 backdrop-blur-md p-4 shadow-xl text-white">
+    <div className="w-84 max-h-[550px] rounded-xl bg-white/10 backdrop-blur-md p-4 shadow-xl text-white">
       <h3 className="text-lg font-semibold mb-3">Notificări</h3>
 
-      <ScrollArea className="h-[320px] pr-2">
-        <div className="space-y-3">
+      <ScrollArea className="max-h-[450px] pr-2 rounded-md overflow-y-auto">
+        <div className="space-y-3 overflow-y-hidden">
           {notifications.map((notif) => (
             <motion.div
               key={notif.id}
@@ -118,7 +106,7 @@ export default function NotificationContainer() {
                 "p-3 rounded-lg border border-white/10 transition cursor-pointer",
                 notif.isSeen
                   ? "bg-white/5 hover:bg-white/10"
-                  : "bg-red-500/20 ring-2 ring-red-500/60"
+                  : "bg-red-500/20 border-red-500/60 ring-none"
               )}
               onClick={() => markAsSeen(notif.id)}
               initial={{ opacity: 0, y: 10 }}
@@ -141,7 +129,20 @@ export default function NotificationContainer() {
               </p>
             </motion.div>
           ))}
-          <div ref={observerRef} className="h-10" />
+
+          {/* Load More Button */}
+          {hasMore && (
+            <div className="flex justify-center py-2">
+              <Button
+                onClick={fetchMore}
+                disabled={isLoading}
+                className="text-white"
+                variant="ghost"
+              >
+                {isLoading ? "Se încarcă..." : "Încarcă mai multe"}
+              </Button>
+            </div>
+          )}
         </div>
       </ScrollArea>
     </div>

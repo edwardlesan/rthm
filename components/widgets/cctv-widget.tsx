@@ -43,13 +43,13 @@ export function CCTVWidget() {
   }, []);
 
   return (
-    <div className="w-full h-full relative rounded-2xl overflow-hidden border border-white/20 shadow-md">
+    <div className="w-full h-full min-h-[300px] relative rounded-2xl overflow-hidden border border-white/20 shadow-md">
       {isCameraOn ? (
         <video
           ref={videoRef}
           autoPlay
           playsInline
-          className="w-full h-full object-cover bg-black"
+          className="absolute inset-0 w-full h-full object-cover bg-black"
         />
       ) : (
         <div className="w-full h-full bg-gradient-to-br from-gray-700 to-gray-800 flex items-center justify-center">

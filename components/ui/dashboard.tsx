@@ -8,7 +8,6 @@ import { useEffect, useState } from "react";
 import axios from "axios";
 import { LuminosityWidget } from "../widgets/luminosity-widget";
 import { AirQualityWidget } from "../widgets/air-quality-widget";
-import { SensorHistoryWidget } from "../widgets/sensor-history-widget";
 
 export function Dashboard({ userName }: { userName: string }) {
   const [sensorData, setSensorData] = useState({
@@ -36,14 +35,20 @@ export function Dashboard({ userName }: { userName: string }) {
   }, []);
 
   return (
-    <div className="h-full w-full flex gap-8">
-      <div className="flex flex-col gap-4 w-full h-full">
-        <WeatherWidget userName={userName} city="suceava" />
-        <MembersList />
-        <CCTVWidget />
+    <div className="flex flex-col xxl:flex-row xxl:gap-8 gap-4 h-full xxl:h-[calc(100dvh-106px)] overflow-y-auto xxl:overflow-hidden">
+      <div className="flex flex-col gap-4 w-full">
+        <div className="flex flex-col h-full xxl:flex-col lg:flex-row gap-4 w-full">
+          <div className="flex flex-col gap-4 w-full lg:w-1/2 xxl:w-full">
+            <WeatherWidget userName={userName} city="suceava" />
+            <MembersList />
+          </div>
+          <div className="w-full h-full lg:w-1/2 xxl:w-full">
+            <CCTVWidget />
+          </div>
+        </div>
       </div>
 
-      <div className="w-2/5 flex flex-col gap-4 h-full">
+      <div className="w-full xxl:w-2/5 flex flex-col sm:flex-col xxl:flex-col gap-4">
         <RoomMetricsWidget
           temperature={sensorData.temperature_C}
           humidity={sensorData.humidity_percent}

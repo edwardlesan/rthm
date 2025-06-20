@@ -4,7 +4,7 @@ import { NextResponse } from "next/server";
 export async function GET(req: Request) {
   const { searchParams } = new URL(req.url);
   const page = parseInt(searchParams.get("page") || "1");
-  const limit = 5;
+  const limit = 4;
   const offset = (page - 1) * limit;
 
   const notifications = await db.notification.findMany({
@@ -20,8 +20,8 @@ export async function GET(req: Request) {
       id: notification.id,
       message: notification.message,
       isSeen: notification.isSeen,
-      createdAt: notification.createdAt.toISOString(), // <-- added this line
+      createdAt: notification.createdAt.toISOString(),
     })),
-    hasMore: offset + limit < totalCount,
+    hasMore: offset + notifications.length < totalCount,
   });
 }
