@@ -2,11 +2,11 @@ import { db } from "@/lib/db";
 import { NextResponse, NextRequest } from "next/server";
 
 export async function PATCH(
-  req: NextRequest, // Use NextRequest here
-  { params }: { params: { id: string } }
+  req: NextRequest,
+  context: { params: { id: string } }
 ) {
   try {
-    const { id } = params;
+    const { id } = context.params;
 
     const updatedNotification = await db.notification.update({
       where: { id },
