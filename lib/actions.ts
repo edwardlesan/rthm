@@ -1,11 +1,10 @@
-// lib/actions.ts
 "use server";
-
 import { getServerSession } from "next-auth";
-import { authOptions } from "./auth"; // adjust import if needed
+import { authOptions } from "./auth";
 import { db } from "./db";
+import { MemberCardProps, User } from "./models";
 
-export async function getUser() {
+export async function getUser(): Promise<User | null> {
   const session = await getServerSession(authOptions);
   if (!session?.user?.email) return null;
 
@@ -29,7 +28,7 @@ export async function getUser() {
   }
 }
 
-export async function getAllUsers() {
+export async function getAllUsers(): Promise<MemberCardProps["member"][]> {
   const users = await db.user.findMany({
     select: {
       id: true,
@@ -39,7 +38,7 @@ export async function getAllUsers() {
     },
   });
 
-  return users.map((user) => ({
+  return users.map((user: User) => ({
     name: user.username,
     email: user.email,
     image: user.avatarUrl || "",

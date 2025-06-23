@@ -20,3 +20,24 @@ export interface IWeatherData {
     icon: string;
   }[];
 }
+
+export type User = {
+  id: number;
+  username: string;
+  email: string;
+  avatarUrl?: string | null;
+  bio?: string | null;
+  location?: string | null;
+  password?: string;
+  createdAt?: Date;
+  updatedAt?: Date;
+};
+
+export type MemberCardProps = {
+  member: {
+    name: string;
+    email: string;
+    image: string;
+    access: boolean;
+  };
+};

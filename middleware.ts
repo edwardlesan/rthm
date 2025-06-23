@@ -9,7 +9,6 @@ export async function middleware(req: NextRequest) {
 
   const isAuth = !!token;
 
-  // Allow both sign-in and sign-up pages
   const isAuthPage =
     req.nextUrl.pathname.startsWith("/sign-in") ||
     req.nextUrl.pathname.startsWith("/sign-up");
@@ -22,13 +21,5 @@ export async function middleware(req: NextRequest) {
 }
 
 export const config = {
-  matcher: [
-    // Protect all paths except:
-    // - API routes
-    // - static files
-    // - favicon
-    // - sign-in and sign-up pages
-    // - public assets
-    "/((?!api|_next/static|favicon.ico|sign-in|sign-up|public).*)",
-  ],
+  matcher: ["/((?!api|_next/static|favicon.ico|sign-in|sign-up|public).*)"],
 };
