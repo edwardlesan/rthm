@@ -1,34 +1,45 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+# 🏠 RTHM – Real-Time Home Monitoring
 
-## Getting Started
+**RTHM** este o platformă inteligentă de monitorizare a locuinței, construită cu [Next.js](https://nextjs.org/), care îți oferă controlul complet al mediului din casă, în timp real.
 
-First, run the development server:
+> Întreținerea unei locuințe nu trebuie să fie complicată. **RTHM** simplifică totul — de la monitorizarea temperaturii și a umidității, până la controlul dispozitivelor conectate. Creează o locuință mai inteligentă, mai sigură și mai eficientă energetic — direct dintr-o interfață modernă, intuitivă și accesibilă de pe orice dispozitiv.
+
+---
+
+## 🚀 Caracteristici principale
+
+- 📡 Afișarea în timp real a valorilor senzorilor: temperatură, umiditate, presiune, gaz, lumină ambientală
+- 💡 Control LED RGB prin API REST (sincronizare cu ESP32)
+- 🔧 Integrare ușoară cu un microcontroller ESP32
+- 📊 Grafică intuitivă pentru urmărirea valorilor senzorilor
+- 🔐 Interfață prietenoasă, responsivă, cu optimizare automată a fonturilor și performanței
+
+---
+
+## 🛠️ Tehnologii utilizate
+
+- [Next.js](https://nextjs.org/) – framework React pentru aplicații performante
+- [TypeScript](https://www.typescriptlang.org/) – siguranță la tipuri și dezvoltare robustă
+- [Tailwind CSS](https://tailwindcss.com/) – stilizare modernă și rapidă
+- [Chart.js](https://www.chartjs.org/) – pentru vizualizarea datelor
+- [Axios](https://axios-http.com/) – pentru consumarea API-urilor de la ESP32
+
+---
+
+## 📦 Instalare locală
+
+1. Clonează repository-ul:
 
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-```
-
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
-
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
-
-This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
-
-## Learn More
-
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+git clone https://github.com/edwardlesan/rthm.git
+cd rthm
+npm install
+# sau
+yarn install
+├── app/
+│   └── page.tsx          # Pagina principală
+├── components/           # Componente UI reutilizabile
+├── lib/                  # Funcții pentru interacțiune cu API ESP32
+├── public/               # Imagini, favicon
+├── styles/               # Fișiere CSS globale
+└── README.md             # Documentația proiectului
